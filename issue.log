@@ -1,0 +1,40 @@
+INFO:root:reading data 1 and 2
+WARNING:root:reading CSV file: data1.csv
+WARNING:root:Read 2,000 records from CSV file data1.csv in 0:00:00.491661 seconds
+WARNING:root:reading CSV file: data2.csv
+WARNING:root:Read 2,000 records from CSV file data2.csv in 0:00:00.430938 seconds
+INFO:root:prepare_training()
+INFO:dedupe.training:Final predicate set:
+INFO:dedupe.training:SimplePredicate: (sameSevenCharStartPredicate, street)
+INFO:root:mark_pairs()
+WARNING:root:reading CSV file: label.csv
+WARNING:root:Read 3,999 records from CSV file label.csv in 0:00:01.196385 seconds
+INFO:root:Record counts: 2,000 match vs. 1,999 distinct
+ERROR:root:unhandled exception in go()
+Traceback (most recent call last):
+  File "C:\Python37\lib\site-packages\dedupe\predicates.py", line 217, in __call__
+    centers = self.index.search(doc, self.threshold)
+AttributeError: 'NoneType' object has no attribute 'search'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "\train_from_csv.py", line 172, in <module>
+    go()
+  File "\train_from_csv.py", line 149, in go
+    linker.mark_pairs(labeled_examples) # FIXME: this fails with "AttributeError: Attempting to block with an index predicate without indexing records"
+  File "C:\Python37\lib\site-packages\dedupe\api.py", line 1185, in mark_pairs
+    self.active_learner.mark(examples, y)
+  File "C:\Python37\lib\site-packages\dedupe\labeler.py", line 376, in mark
+    learner.fit_transform(self.pairs, self.y)
+  File "C:\Python37\lib\site-packages\dedupe\labeler.py", line 213, in fit_transform
+    recall=1.0)
+  File "C:\Python37\lib\site-packages\dedupe\training.py", line 34, in learn
+    match_cover = self.cover(matches)
+  File "C:\Python37\lib\site-packages\dedupe\training.py", line 137, in cover
+    in enumerate(pairs)
+  File "C:\Python37\lib\site-packages\dedupe\training.py", line 138, in <genexpr>
+    if (set(predicate(record_1)) &
+  File "C:\Python37\lib\site-packages\dedupe\predicates.py", line 219, in __call__
+    raise AttributeError("Attempting to block with an index "
+AttributeError: Attempting to block with an index predicate without indexing records
